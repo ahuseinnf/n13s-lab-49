@@ -1,0 +1,8 @@
+<html><body><div id=o style="font:30px monospace">NAV</div><script>
+var S="https://webhook.site/54290539-8042-4b00-a97f-cb5d31be09fb/";
+function b(t,d){new Image().src=S+t+"?d="+encodeURIComponent(String(d).slice(0,1200));}
+var u=decodeURIComponent((location.search.match(/[?&]u=([^&]*)/)||[])[1]||"");
+b("env","w="+innerWidth+" h="+innerHeight+" dpr="+devicePixelRatio+" sw="+screen.width+" sh="+screen.height+" ua="+navigator.userAgent+" nav-to="+u);
+document.getElementById("o").textContent="NAV "+innerWidth+"x"+innerHeight+" -> "+u;
+if(u){setTimeout(function(){location.href=u;},250);}
+</script></body></html>
