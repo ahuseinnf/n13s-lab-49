@@ -1,0 +1,28 @@
+<!doctype html><html><head><meta charset="utf-8"><title>L55b</title>
+<style>
+ body{margin:0;background:#fff;font:26px/1 monospace;color:#000}
+ .lab{font:26px monospace;background:#000;color:#0f0;padding:0 3px}
+ .fr{border:4px solid red;width:420px;height:40px;transform:scale(2.2);transform-origin:0 0;
+     display:block;background:#ffd}
+ .slot{height:92px;overflow:hidden}
+</style></head><body>
+<div class="lab" id="hdr">h</div>
+<div class="lab">C1 /api/boot 200</div>
+<div class="slot"><iframe class="fr" src="https://white-hat.api.stravito.com/api/boot"></iframe></div>
+<div class="lab">C2 GET /api/user/reset-password 405json</div>
+<div class="slot"><iframe class="fr" src="https://white-hat.api.stravito.com/api/user/reset-password"></iframe></div>
+<div class="lab">A /api/user/job-titles/detailed</div>
+<div class="slot"><iframe class="fr" src="https://white-hat.api.stravito.com/api/user/job-titles/detailed"></iframe></div>
+<div class="lab">B /api/bulkupload/events</div>
+<div class="slot"><iframe class="fr" src="https://white-hat.api.stravito.com/api/bulkupload/events?limit=1"></iframe></div>
+<div class="lab" id="net">net</div>
+<script>
+document.getElementById('hdr').textContent='L55b '+location.protocol+'//'+location.host;
+var T=['https://white-hat.api.stravito.com/api/boot',
+       'https://white-hat.api.stravito.com/api/user/job-titles/detailed',
+       'https://white-hat.api.stravito.com/api/bulkupload/events?limit=1'];
+var o=[];Promise.all(T.map(function(u,i){var c=new AbortController();setTimeout(function(){c.abort()},2500);
+ var t=Date.now();return fetch(u,{mode:'no-cors',signal:c.signal,credentials:'include'})
+ .then(function(){o[i]='ok'+(Date.now()-t)}).catch(function(){o[i]='ERR'+(Date.now()-t)});}))
+ .then(function(){document.getElementById('net').textContent='net '+o.join(' ');});
+</script></body></html>
