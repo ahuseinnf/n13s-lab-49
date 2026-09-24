@@ -1,0 +1,10 @@
+<html><body style="margin:0"><div id=l style="font:20px monospace">-</div>
+<iframe id=f style="width:955px;height:520px;border:3px solid #f00"></iframe>
+<script>
+var u=decodeURIComponent((location.search.match(/[?&]u=([^&]*)/)||[])[1]||"");
+document.getElementById("l").textContent="L49 "+u;
+var f=document.getElementById("f");
+f.onload=function(){document.getElementById("l").textContent="L49 LOADED "+u;};
+f.onerror=function(){document.getElementById("l").textContent="L49 ERR "+u;};
+f.src=u;
+</script></body></html>
